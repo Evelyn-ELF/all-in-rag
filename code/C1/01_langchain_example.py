@@ -18,7 +18,17 @@ loader = UnstructuredMarkdownLoader(markdown_path)
 docs = loader.load()
 
 # 文本分块
-text_splitter = RecursiveCharacterTextSplitter()
+# text_splitter = RecursiveCharacterTextSplitter()
+text_splitter = RecursiveCharacterTextSplitter(
+    # chunk_size = 500,
+    # chunk_overlap = 100
+
+    # chunk_size = 200,
+    # chunk_overlap = 20
+
+    chunk_size = 1000,
+    chunk_overlap = 200
+)
 chunks = text_splitter.split_documents(docs)
 
 # 中文嵌入模型
@@ -46,15 +56,22 @@ prompt = ChatPromptTemplate.from_template("""请根据下面提供的上下文�
                                           )
 
 # 配置大语言模型
-
-# 使用 AIHubmix
 llm = ChatOpenAI(
-    model="glm-4.7-flash-free",
+    model="qwen3-coder-flash",
     temperature=0.7,
     max_tokens=4096,
-    api_key=os.getenv("DEEPSEEK_API_KEY"),
-    base_url="https://aihubmix.com/v1"
+    api_key=os.getenv("DASHSCOPE_API_KEY"),
+    base_url="https://dashscope.aliyuncs.com/compatible-mode/v1"
 )
+
+# 使用 AIHubmix
+# llm = ChatOpenAI(
+#     model="glm-4.7-flash-free",
+#     temperature=0.7,
+#     max_tokens=4096,
+#     api_key=os.getenv("DEEPSEEK_API_KEY"),
+#     base_url="https://aihubmix.com/v1"
+# )
 
 # llm = ChatOpenAI(
 #     model="deepseek-chat",
@@ -73,3 +90,6 @@ docs_content = "\n\n".join(doc.page_content for doc in retrieved_docs)
 
 answer = llm.invoke(prompt.format(question=question, context=docs_content))
 print(answer)
+
+text = answer.content
+print(text)

@@ -10,8 +10,8 @@ load_dotenv()
 # 使用 AIHubmix
 Settings.llm = OpenAILike(
     model="glm-4.7-flash-free",
-    api_key=os.getenv("DEEPSEEK_API_KEY"),
-    api_base="https://aihubmix.com/v1",
+    api_key=os.getenv("DASHSCOPE_API_KEY"),
+    api_base="https://dashscope.aliyuncs.com/compatible-mode/v1",
     is_chat_model=True
 )
 

@@ -1,12 +1,21 @@
 from unstructured.partition.auto import partition
-
+import os
+os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
+from unstructured.partition.pdf import partition_pdf
 # PDF文件路径
 pdf_path = "../../data/C2/pdf/rag.pdf"
 
 # 使用Unstructured加载并解析PDF文档
-elements = partition(
-    filename=pdf_path,
-    content_type="application/pdf"
+# elements = partition(
+#     filename=pdf_path,
+#     content_type="application/pdf"
+# )
+
+
+elements = partition_pdf(
+    filename = pdf_path,
+    strategy = "hi_res"
+    # ,strategy = "ocr_only"
 )
 
 # 打印解析结果
