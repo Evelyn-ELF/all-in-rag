@@ -113,7 +113,7 @@ flowchart LR
 class GenerationIntegrationModule:
     """生成集成模块 - 负责LLM集成和回答生成"""
     
-    def __init__(self, model_name: str = "kimi-k2-0711-preview", 
+    def __init__(self, model_name: str = "qwen3.7-max", 
                  temperature: float = 0.1, max_tokens: int = 2048):
         self.model_name = model_name
         self.temperature = temperature
@@ -227,8 +227,8 @@ class RecipeRAGSystem:
         # 检查数据路径和API密钥
         if not Path(self.config.data_path).exists():
             raise FileNotFoundError(f"数据路径不存在: {self.config.data_path}")
-        if not os.getenv("MOONSHOT_API_KEY"):
-            raise ValueError("请设置 MOONSHOT_API_KEY 环境变量")
+        if not os.getenv("DASHBOARD_API_KEY"):
+            raise ValueError("请设置 DASHBOARD_API_KEY 环境变量")
 ```
 
 主系统类负责协调所有模块，确保系统的完整性和一致性。

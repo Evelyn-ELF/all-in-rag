@@ -27,10 +27,10 @@ prompt = PromptTemplate(
     partial_variables={"format_instructions": parser.get_format_instructions()},
 )
 
-# # 打印格式指令
-# print("\n--- Format Instructions ---")
-# print(parser.get_format_instructions())
-# print("--------------------------\n")
+# 打印格式指令
+print("\n--- Format Instructions ---")
+print(parser.get_format_instructions())
+print("--------------------------\n")
 
 # 4. 创建处理链
 chain = prompt | llm | parser

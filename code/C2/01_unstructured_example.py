@@ -14,8 +14,9 @@ pdf_path = "../../data/C2/pdf/rag.pdf"
 
 elements = partition_pdf(
     filename = pdf_path,
-    strategy = "hi_res"
-    # ,strategy = "ocr_only"
+    strategy = "hi_res",  # 复杂版式，这个效果不错
+    # strategy = "ocr_only",  # 适合纯图片型PDF，整页OCR。目前看用这个解析，效果很差
+    languages = ["chi_sim", "eng"]
 )
 
 # 打印解析结果

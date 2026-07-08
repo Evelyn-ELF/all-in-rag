@@ -82,7 +82,7 @@ class MilvusIndexConstructionModule:
         
         self.embeddings = HuggingFaceEmbeddings(
             model_name=self.model_name,
-            model_kwargs={'device': 'cpu'},
+            model_kwargs={'device': 'mps'},
             encode_kwargs={'normalize_embeddings': True}
         )
         

@@ -126,7 +126,7 @@ MILVUS_HOST=localhost
 MILVUS_PORT=19530
 
 # LLM API配置
-MOONSHOT_API_KEY=your_api_key_here
+DASHBOARD_API_KEY=your_api_key_here
 ```
 
 ## 三、系统架构设计

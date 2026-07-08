@@ -1,5 +1,8 @@
 import os
 from langchain_deepseek import ChatDeepSeek 
+# 解决加载BiliBili视频失败: 400, message:Can not decode content-encoding: br
+from bilibili_api.utils.network import select_client
+select_client("httpx")
 from langchain_community.document_loaders import BiliBiliLoader
 from langchain.chains.query_constructor.base import AttributeInfo
 from langchain.retrievers.self_query.base import SelfQueryRetriever

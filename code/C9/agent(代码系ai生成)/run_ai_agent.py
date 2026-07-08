@@ -20,7 +20,7 @@ def load_config():
         return {
             "kimi": {
                 "api_key": "",
-                "base_url": "https://api.moonshot.cn/v1"
+                "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1"
             },
             "output": {
                 "format": "neo4j",

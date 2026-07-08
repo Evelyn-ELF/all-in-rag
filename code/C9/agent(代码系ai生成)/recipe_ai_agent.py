@@ -61,7 +61,7 @@ class RecipeInfo:
 class KimiRecipeAgent:
     """Kimi菜谱解析AI Agent"""
     
-    def __init__(self, api_key: str, base_url: str = "https://api.moonshot.cn/v1"):
+    def __init__(self, api_key: str, base_url: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"):
         self.api_key = api_key
         self.base_url = base_url
         self.client = OpenAI(
@@ -105,7 +105,7 @@ class KimiRecipeAgent:
         for attempt in range(max_retries):
             try:
                 response = self.client.chat.completions.create(
-                    model="kimi-k2-0711-preview",
+                    model="qwen3.7-max",
                     messages=messages,
                     temperature=0.3,
                     max_tokens=2048,
@@ -1305,7 +1305,7 @@ def main():
     parser.add_argument('-o', '--output', default='./ai_output', help='输出目录路径')
     parser.add_argument('--format', choices=['csv', 'neo4j'], default='neo4j', 
                        help='输出格式 (csv 或 neo4j)')
-    parser.add_argument('--base-url', default='https://api.moonshot.cn/v1', 
+    parser.add_argument('--base-url', default='https://dashscope.aliyuncs.com/compatible-mode/v1', 
                        help='Kimi API基础URL')
     
     args = parser.parse_args()

@@ -62,16 +62,18 @@ class HybridMultimodalEncoder:
         self.visual_model = Visualized_BGE(model_name_bge=visual_model_name, model_weight=visual_model_path)
         self.visual_model.eval()
         
-        # 初始化BGE-M3模型（用于混合检索）
+        # 初始化BGE-M3模型（用于混合检索）======这个是重点！！！
         self.bge_m3 = BGEM3EmbeddingFunction(use_fp16=False, device="cpu")
         print(f"BGE-M3 密集向量维度: {self.bge_m3.dim['dense']}")
 
+    # 之前的多模态方式
     def encode_multimodal(self, image_path: str, text: str) -> list[float]:
         """编码多模态内容（图像+文本）"""
         with torch.no_grad():
             query_emb = self.visual_model.encode(image=image_path, text=text)
         return query_emb.tolist()[0]
     
+    # 混合检索用
     def encode_text_hybrid(self, text: str) -> dict:
         """使用BGE-M3编码文本，返回稀疏和密集向量"""
         embeddings = self.bge_m3([text])
@@ -193,17 +195,17 @@ class HybridMultimodalSearcher:
 
         # 创建索引
         print("--> 正在创建索引...")
-        # 多模态向量索引
+        # 多模态向量索引============重要！！！！！
         multimodal_index = {"index_type": "HNSW", "metric_type": "COSINE", "params": {"M": 16, "efConstruction": 256}}
         self.collection.create_index("multimodal_vector", multimodal_index)
         print("多模态向量索引创建成功")
         
-        # 稀疏向量索引
+        # 稀疏向量索引============重要！！！！！
         sparse_index = {"index_type": "SPARSE_INVERTED_INDEX", "metric_type": "IP"}
         self.collection.create_index("text_sparse_vector", sparse_index)
         print("稀疏向量索引创建成功")
         
-        # 密集向量索引
+        # 密集向量索引============重要！！！！！
         dense_index = {"index_type": "AUTOINDEX", "metric_type": "IP"}
         self.collection.create_index("text_dense_vector", dense_index)
         print("密集向量索引创建成功")
@@ -254,6 +256,7 @@ class HybridMultimodalSearcher:
         else:
             print(f"--> Collection 中已有 {self.collection.num_entities} 条数据，跳过插入")
     
+    # 重要！！！
     def search(self, query_image_path: str, query_text: str, mode: str = "hybrid", top_k: int = 5) -> list:
         """执行搜索"""
         search_params = {"metric_type": "IP", "params": {}}

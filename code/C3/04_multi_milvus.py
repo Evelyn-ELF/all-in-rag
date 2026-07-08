@@ -1,4 +1,6 @@
 import os
+# 务必放在最顶部，import transformers 之前
+os.environ["HF_ENDPOINT"] = "https://hf-mirror.com" 
 from tqdm import tqdm
 from glob import glob
 import torch

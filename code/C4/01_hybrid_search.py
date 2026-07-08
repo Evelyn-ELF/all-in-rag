@@ -1,5 +1,6 @@
 import json
 import os
+# os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 import numpy as np
 from pymilvus import connections, MilvusClient, FieldSchema, CollectionSchema, DataType, Collection, AnnSearchRequest, RRFRanker
 from pymilvus.model.hybrid import BGEM3EmbeddingFunction
@@ -47,10 +48,12 @@ if not milvus_client.has_collection(COLLECTION_NAME):
 
     # 4. 创建索引
     print("--> 正在为新集合创建索引...")
+    # Milvus 专为 稀疏向量 设计的倒排索引, IP: 内积（Inner Product） 作为相似度度量
     sparse_index = {"index_type": "SPARSE_INVERTED_INDEX", "metric_type": "IP"}
     collection.create_index("sparse_vector", sparse_index)
     print("稀疏向量索引创建成功。")
 
+    # 让 Milvus自动选择合适的ANN索引（如 HNSW、IVF 等），无需手动调参，适合demo和快速上手
     dense_index = {"index_type": "AUTOINDEX", "metric_type": "IP"}
     collection.create_index("dense_vector", dense_index)
     print("密集向量索引创建成功。")
